@@ -15,145 +15,132 @@ import {
     ListView,
     Animated
 } from 'react-native'
+import TopFixNavigationBar from "../components/ui controls/TopFixNavigationBar";
+import BlurImage from "../components/ui controls/BlurImage";
 
-var Overlay = require('react-native-overlay');
-import { BlurView, VibrancyView} from 'react-native-blur'
-import SegmentedControlTab from 'react-native-segmented-control-tab'
+import DaysStore from '../components/stores/DaysStore'
+import EventList from '../components/ui controls/EventList'
+
 const window = require('Dimensions').get('window')
+const MainAreaHeight: number = 200;
+
 export default class HomePage extends Component {
     constructor(props) {
         super(props);
+        this.daysStore = new DaysStore();
         this.state = {
-            eventMainAreaInitHeight: 200,
-            eventMainAreaHeight: 200,
-            eventMainAreaImageScale: 1
-        }
+            eventMainAreaInitHeight: MainAreaHeight,
+            eventMainAreaHeight: MainAreaHeight,
+            eventMainAreaImageScale: 1,
+            topDay: this.daysStore.topDay()
+        };
     }
 
     render() {
-        let ds = new ListView.DataSource({
-            rowHasChanged: (r1, r2) => r1 !== r2
+        let listViewYOffsetAnimated = new Animated.Value(0);
+        let listViewOnScrollAnimated = Animated.event([{ nativeEvent: { contentOffset: { y: listViewYOffsetAnimated } } }]);
+
+        var distance = Math.ceil(parseInt((this.state.topDay.eventDate - (new Date()).getTime())  / 1000 / 60 / 60) / 24);
+        if (distance == 0) {
+            distance = (new Date(this.state.topDay.eventDate)).getDay() - (new Date()).getDay();
+        }
+        var headerColor = listViewYOffsetAnimated.interpolate({
+            inputRange: [0, 140, 10000000],
+            outputRange: ['rgba(0, 0, 0, 0)', 'rgba(0, 0, 0, 0.7)', 'rgba(0, 0, 0, 0.7)']
         });
-        let fontScale = this.state.eventMainAreaImageScale > 0.5 ? this.state.eventMainAreaImageScale : 0.5;
-        let opacity = 1 - 3*( 1 - this.state.eventMainAreaImageScale);
         return (
             <View style={{ flex: 1, backgroundColor: '#000000' }}>
-                <Image source={ require('../resources/bg_01.jpg')} style={{ position: 'absolute', width:window.width, height:window.height}} >
-                </Image>
-                <BlurView blurType="dark" blurAmount={10} style={{ position:'absolute', width:window.width, height:window.height}}>
-                </BlurView>
+                <BlurImage
+                    source={ require('../resources/bg_02.jpg')}
+                    style={{ position: 'absolute', width:window.width, height:window.height}}
+                />
+
                 <Animated.View style={{
                     backgroundColor: 'rgba(0,0,0, 0.0)',
                     position: 'absolute',
                     width: window.width,
-                    height: this.state.eventMainAreaHeight - 64,
+                    height: listViewYOffsetAnimated.interpolate({
+                        inputRange: [
+                            -60,
+                            0,
+                            60
+                        ],
+                        outputRange: [
+                            this.state.eventMainAreaInitHeight + 60 - 64 ,
+                            this.state.eventMainAreaInitHeight - 64,
+                            this.state.eventMainAreaInitHeight - 60 - 64],
+                    }),
                     alignItems: 'center',
                     justifyContent: 'center',
                     top: 64,
                     overflow: 'hidden',
-                    opacity: opacity,
-                    transform: [{
-                        scaleX: fontScale
-                    }, {
-                        scaleY: fontScale
-                    }]
+                    opacity: listViewYOffsetAnimated.interpolate({
+                        inputRange: [
+                            0,
+                            100
+                        ],
+                        outputRange: [1,0],
+                    })
                 }}>
-                    <Text style={{
-                        fontSize: 44,
+                    <Animated.Text style={{
+                        fontSize: listViewYOffsetAnimated.interpolate({
+                            inputRange: [
+                                -100,
+                                0
+                            ],
+                            outputRange: [44 * 1.4,44],
+                        }),
                         color: '#fff'
-                    }}>3</Text>
-                    <Text style={{
-                        fontSize: 14,
+                    }}>{distance}</Animated.Text>
+                    <Animated.Text style={{
+                        fontSize: listViewYOffsetAnimated.interpolate({
+                            inputRange: [
+                                -100,
+                                0
+                            ],
+                            outputRange: [16 * 1.4,16],
+                        }),
                         color: '#fff',
                         marginTop: 3,
-                        marginBottom: 2
-                    }}>Event content</Text>
-                    <Text style={{
-                        fontSize: 10,
-                        color: '#fff'
-                    }}>2017-6-4(周五)</Text>
+                        marginBottom: 6
+                    }}>{ this.state.topDay.eventName }</Animated.Text>
+                    <Animated.Text style={{
+                        fontSize:  listViewYOffsetAnimated.interpolate({
+                            inputRange: [
+                                -100,
+                                0
+                            ],
+                            outputRange: [12 * 1.4,12],
+                        }),
+                        color: '#ccc'
+                    }}>{ '目标日:' + (new Date(this.state.topDay.eventDate)).toLocaleDateString() }</Animated.Text>
                 </Animated.View>
-                <View style={ styles.navigationBar } >
-                    <TouchableOpacity>
-                        <Text style={ styles.mainText }>菜单</Text>
-                    </TouchableOpacity>
-                    <Text style={ styles.mainText }>Our Days - Life</Text>
-                    <TouchableOpacity>
-                        <Text style={ styles.mainText }>添加</Text>
-                    </TouchableOpacity>
-                </View>
-                <ListView
-                    style={{
-                        overflow: 'visible',
-                        backgroundColor: '#00000000',
-                        marginTop: this.state.eventMainAreaInitHeight
-                    }}
-                    dataSource={ ds.cloneWithRows([1, 2, 3, 5, 6,7,8,9,3,4,5,6,7,8]) }
-                    renderRow={ (data) => {
-                        return (
-                        <View style={{
-                            flexDirection: 'row',
-                            justifyContent: 'space-between',
-                            alignItems: 'center',
-                            height: 60,
-                            paddingLeft:16,
-                            paddingRight:16,
-                            paddingTop:10,
-                            paddingBottom:10,
-                            borderBottomColor: 'rgba(200,200,200,0.5)',
-                            borderBottomWidth: 1
-                        }}>
-                            <View style={{ flexDirection: 'column'}}>
-                                <Text style={{color: '#fff', marginBottom: 5 }}>Event Name</Text>
-                                <Text style={{color: 'rgba(255,255,255,0.6)' }}>2017-8-9 (周日)</Text>
-                            </View>
-                            <Text style={{color: '#fff', fontSize: 28 }}>40</Text>
-                        </View>
-
-                        )
-                    } }
-                    scrollEventThrottle = {16.0}
-                    onScroll={ (event)=> {
-                        let offsetY = event.nativeEvent.contentOffset.y;
-                        var scale = this.state.eventMainAreaHeight / this.state.eventMainAreaInitHeight;
-                        if (scale < 0) {
-                            scale = 0;
-                        }
-                        this.setState({ eventMainAreaHeight:  this.state.eventMainAreaInitHeight - offsetY });
-                        this.setState({ eventMainAreaImageScale: scale })
-                    }}>
-
-                </ListView>
-
+                <EventList
+                    style={ styles.eventList }
+                    onScroll={ listViewOnScrollAnimated }
+                    daysStore={ this.daysStore }
+                    onRowSelected={ this._rowSelected.bind(this) }>
+                </EventList>
+                <TopFixNavigationBar
+                    style= {{ backgroundColor: headerColor }}
+                    title= "Our Days - Life"
+                    leftImageSource={ require('../resources/ic_menu.png') }
+                    rightImageSource={ require('../resources/ic_add.png') } />
             </View>
         )
+    }
+
+    _rowSelected(index, data) {
+        let { navigate } = this.props.navigation;
+        navigate('EventPreviewPage', { 'day' : data });
     }
 }
 
 const styles = StyleSheet.create({
-    navigationBar: {
-        backgroundColor: '#00000000',
-        height:44,
-        marginTop:20,
-        flexDirection: 'row',
-        justifyContent: 'space-between',
-        paddingLeft:16,
-        paddingRight:16,
-        alignItems: 'center',
-        flex:1,
-        position: 'absolute',
-        top: 0,
-        left:0,
-        right:0
-    },
     eventDisplayArea: {
         backgroundColor: '#007',
     },
     eventList: {
-
-    },
-    mainText: {
-        color: '#fff',
-        fontSize: 15
+        marginTop: MainAreaHeight
     }
 })
