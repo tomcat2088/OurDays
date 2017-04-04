@@ -25,7 +25,7 @@ export default class BlurImage extends Component {
     render() {
         return (
             <Image source={ this.props.source } style={ this.props.style }>
-                <BlurView blurType="dark" blurAmount={6} style={ this.props.style } >
+                <BlurView blurType="dark" blurAmount={10} style={ this.props.style } >
                 </BlurView>
             </Image>
         )

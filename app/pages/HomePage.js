@@ -51,7 +51,7 @@ export default class HomePage extends Component {
         return (
             <View style={{ flex: 1, backgroundColor: '#000000' }}>
                 <BlurImage
-                    source={ require('../resources/bg_02.jpg')}
+                    source={ require('../resources/bg_01.jpg')}
                     style={{ position: 'absolute', width:window.width, height:window.height}}
                 />
 
