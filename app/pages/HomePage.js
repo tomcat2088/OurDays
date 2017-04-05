@@ -132,7 +132,7 @@ export default class HomePage extends Component {
 
     _rowSelected(index, data) {
         let { navigate } = this.props.navigation;
-        navigate('EventPreviewPage', { 'day' : data });
+        navigate('EventPreviewPage', { 'selectedDayIndex' : index, days: this.daysStore.fetchDays() });
     }
 }
 

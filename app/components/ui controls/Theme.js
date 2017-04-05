@@ -7,23 +7,29 @@ import {
 } from 'react-native'
 
 const DefaultTheme = StyleSheet.create({
+    exLargeText: {
+        fontSize: 60
+    },
     largeText: {
         fontSize: 30
     },
     middleText: {
-        fontSize: 20,
+        fontSize: 17,
     },
     smallText: {
-        fontSize: 12
+        fontSize: 14
     },
     lightText: {
-        color: '#fff'
+        color: '#fff',
+        backgroundColor: 'rgba(0,0,0,0)'
     },
     darkText: {
-        color: '#222'
+        color: '#222',
+        backgroundColor: 'rgba(0,0,0,0)'
     },
     grayText: {
-        color: '#999'
+        color: '#aaa',
+        backgroundColor: 'rgba(0,0,0,0)'
     }
 });
 

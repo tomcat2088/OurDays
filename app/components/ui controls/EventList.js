@@ -54,7 +54,7 @@ export default class EventList extends Component {
             <TouchableHighlight
                 onPress={ () => {
                 if (this.props.onRowSelected) {
-                    this.props.onRowSelected(0, data);
+                    this.props.onRowSelected(this.state.days.indexOf(data), data);
                 }} }
                 underlayColor="rgba(0,0,0,0.2)">
                 <View style={ styles.listViewRow }>

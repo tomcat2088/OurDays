@@ -25,7 +25,7 @@ export default class TopFixNavigationBar extends Component {
         return (
             <Animated.View style={ [styles.navigationBar, this.props.style] } >
                 { this._renderLeftItem() }
-                <Text style={ styles.mainText }>{ this.props.title }</Text>
+                <Text style={ [theme.middleText, theme.lightText] }>{ this.props.title }</Text>
                 { this._renderRightItem() }
             </Animated.View>
         )
@@ -39,7 +39,7 @@ export default class TopFixNavigationBar extends Component {
                         this.props.onLeftPress();
                     }
                 } }>
-                    <Text style={ styles.mainText }>{ this.props.leftTitle }</Text>
+                    <Text style={ [theme.middleText, theme.lightText] }>{ this.props.leftTitle }</Text>
                 </TouchableOpacity>
             )
         } else if (this.props.leftImageSource){
@@ -63,7 +63,7 @@ export default class TopFixNavigationBar extends Component {
                         this.props.onRightPress();
                     }
                 } }>
-                    <Text style={ styles.mainText }>{ this.props.rightTitle }</Text>
+                    <Text style={ [theme.middleText, theme.lightText] }>{ this.props.rightTitle }</Text>
                 </TouchableOpacity>
             )
         } else if (this.props.rightImageSource){
