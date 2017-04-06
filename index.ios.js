@@ -17,24 +17,46 @@ import {
 import HomePage from './app/pages/HomePage'
 import EventPreviewPage from './app/pages/EventPreviewPage'
 import EventEditPage from './app/pages/EventEditPage'
+import { Navigation } from 'react-native-navigation';
 
-const App = StackNavigator({
-        Main: {
-            screen: HomePage
-        },
-        EventPreviewPage: {
-            screen: EventPreviewPage
-        },
-        EventEditPage: {
-            screen: EventEditPage
-        }
+function registerScreens() {
+    Navigation.registerComponent('Main', () => HomePage);
+    Navigation.registerComponent('EventPreviewPage', () => EventPreviewPage);
+    Navigation.registerComponent('EventEditPage', () => EventEditPage);
+}
+registerScreens();
+
+Navigation.startSingleScreenApp({
+    screen: {
+        screen: 'Main', // unique ID registered with Navigation.registerScreen
+        title: 'Main', // title of the screen as appears in the nav bar (optional)
+        navigatorStyle: {
+            navBarHidden: true,
+            screenBackgroundColor: '#000'
+        }, // override the navigator style for the screen, see "Styling the navigator" below (optional)
+        navigatorButtons: {} // override the nav buttons for the screen, see "Adding buttons to the navigator" below (optional)
     },
-    {
-        headerMode: 'screen',
-        navigationOptions: {
-            header: { visible: false }
-        }
-    })
+    passProps: {},
+    animationType: 'slide-down'
+});
+
+// const App = StackNavigator({
+//         Main: {
+//             screen: HomePage
+//         },
+//         EventPreviewPage: {
+//             screen: EventPreviewPage
+//         },
+//         EventEditPage: {
+//             screen: EventEditPage
+//         }
+//     },
+//     {
+//         headerMode: 'screen',
+//         navigationOptions: {
+//             header: { visible: false }
+//         },
+//     })
 
 const styles = StyleSheet.create({
     container: {

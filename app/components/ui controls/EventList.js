@@ -20,22 +20,40 @@ var DaysStore = require('../../components/stores/DaysStore');
 export default class EventList extends Component {
     constructor(props) {
         super(props);
-        this.state = {
-            daysStore: this.props.daysStore,
-            days: [],
-        };
-        this.state.days = this.state.daysStore.fetchDays();
-    }
-    
-    render() {
+
         const ds = new ListView.DataSource({
             rowHasChanged: (r1, r2) => r1 !== r2
         });
-        let dataSource = ds.cloneWithRows(this.state.days);
+        var _this = this;
+        DaysStore.fetchDays(function(days) {
+            _this.setState({ dataSource: ds.cloneWithRows(days) });
+        });
+        this.state = {
+            dataSource: ds.cloneWithRows([])
+        }
+    }
+
+    componentDidMount() {
+        DaysStore.listenOn(this);
+    }
+
+    componentWillUnmount() {
+        DaysStore.listenOff(this);
+    }
+
+    daysStoreUpdated() {
+        const ds = new ListView.DataSource({
+            rowHasChanged: (r1, r2) => r1 !== r2
+        });
+        this.setState({ dataSource: ds.cloneWithRows(DaysStore.sortedDays()) });
+    }
+    
+    render() {
+
         return (
             <ListView
                 style={[styles.listView, this.props.style]}
-                dataSource={ dataSource }
+                dataSource={ this.state.dataSource }
                 renderRow={ this._renderRow.bind(this) }
                 scrollEventThrottle = {16.0}
                 onScroll={ this.props.onScroll }
@@ -54,7 +72,7 @@ export default class EventList extends Component {
             <TouchableHighlight
                 onPress={ () => {
                 if (this.props.onRowSelected) {
-                    this.props.onRowSelected(this.state.days.indexOf(data), data);
+                    this.props.onRowSelected(DaysStore.days.indexOf(data), data);
                 }} }
                 underlayColor="rgba(0,0,0,0.2)">
                 <View style={ styles.listViewRow }>

@@ -25,7 +25,7 @@ export default class TopFixNavigationBar extends Component {
         return (
             <Animated.View style={ [styles.navigationBar, this.props.style] } >
                 { this._renderLeftItem() }
-                <Text style={ [theme.middleText, theme.lightText] }>{ this.props.title }</Text>
+                <Text style={ [theme.middleText, theme.lightText, styles.navTitle] }>{ this.props.title }</Text>
                 { this._renderRightItem() }
             </Animated.View>
         )
@@ -52,6 +52,10 @@ export default class TopFixNavigationBar extends Component {
                     <Image source={ this.props.leftImageSource } style={{ width: 34, height: 34 }}></Image>
                 </TouchableOpacity>
             )
+        } else {
+            return (
+                <Text style={ [theme.middleText, theme.lightText] }>{ '        ' }</Text>
+            )
         }
     }
 
@@ -76,6 +80,10 @@ export default class TopFixNavigationBar extends Component {
                     <Image source={ this.props.rightImageSource } style={{ width: 34, height: 34 }}></Image>
                 </TouchableOpacity>
             )
+        } else {
+            return (
+                <Text style={ [theme.middleText, theme.lightText] }>{ '        ' }</Text>
+            )
         }
     }
 }
@@ -99,5 +107,8 @@ const styles = StyleSheet.create({
         color: '#fff',
         fontSize: 15,
         backgroundColor: 'rgba(0,0,0,0)'
+    },
+    navTitle: {
+        textAlign: 'center'
     }
 });

@@ -2,10 +2,13 @@
  * Created by ocean on 2017/3/28.
  */
 import React, {Component} from 'react'
-import 'react-native'
+import {
+    AsyncStorage
+} from 'react-native'
 
 var stringformat = require('stringformat');
 var moment = require('moment');
+var uuid = require('react-native-uuid');
 
 class Day {
     constructor() {
@@ -13,7 +16,7 @@ class Day {
        this.eventDate = 0;
        this.category = 'category';
        this.repeat = 'week';
-       this._id = 3;
+       this.id = uuid.v4();
     }
 
     distance() {
@@ -41,15 +44,47 @@ class Day {
         weekDay = weekMap[weekDay];
         return date + '  (' + weekDay + ')'
     }
+
+    assign(day: Day) {
+        this.eventName = day.eventName;
+        this.eventDate = day.eventDate;
+        this.category = day.category;
+        this.repeat = day.repeat;
+    }
 }
 
-class DaysStore {
-    constructor(category) {
+const DaysStorageKey = 'Days_Store_Key';
+
+class DaysStore extends Component {
+    constructor(props) {
+        super(props);
         this.days = [];
+        this.topDayUid = '';
+        this.listeners = [];
     }
 
-    fetchDays() {
-        return this.mockData(20);
+    listenOn(reciever) {
+        this.listeners.push(reciever);
+    }
+
+    listenOff(reciever) {
+        let index = this.listeners.indexOf(reciever);
+        if (index >= 0) {
+            this.listeners.splice(index , 1);
+        }
+    }
+
+    updated() {
+        for ( let listenerIndex in this.listeners ) {
+            let listener = this.listeners[listenerIndex];
+            if (listener.daysStoreUpdated) {
+                listener.daysStoreUpdated();
+            }
+        }
+    }
+
+    fetchDays(success, failed) {
+        this._loadAll(success, failed);
     }
 
     fetchCategory() {
@@ -60,30 +95,157 @@ class DaysStore {
         return ['无重复', '每天', '每周', '每月'];
     }
 
-    saveDay(dayIndex, day) {
+    newDay() {
+        var day: Day = new Day();
+        day.category = this.fetchCategory()[0];
+        day.eventDate = (new Date()).getTime();
+        day.repeat = this.repeatTypes()[0];
+        return day;
+    }
 
+    deleteDay(day: Day, success, failed) {
+        let index = this.days.indexOf(day);
+        if (index >= 0) {
+            this.days.splice(index, 1);
+        }
+        var _this = this;
+        this._saveAll(function(error) {
+            if (error) {
+                if (failed) {
+                    return failed(error);
+                }
+            } else {
+                if (success) {
+                    _this.updated();
+                    return success();
+                }
+            }
+        });
+
+    }
+
+    saveDay(day: Day, success, failed) {
+        let savedDay = this.dayForUid(day.id);
+        if (savedDay) {
+            if (day != savedDay) {
+                day.assign(savedDay);
+            }
+        } else {
+            this.days.splice(0, 0, day);
+        }
+        this._saveAll(function(error) {
+           if (error) {
+               if (failed) {
+                   return failed(error);
+               }
+           } else {
+               if (success) {
+                   return success();
+               }
+           }
+        });
     }
 
     topDay() {
-        return this.fetchDays()[0];
-    }
-
-    isTopDay(index) {
-        return index == 0;
-    }
-
-    mockData(numberOfDays: number) {
-        var days = [];
-        for (var i = 0; i < numberOfDays;i++) {
-            var day: Day = new Day();
-            day.eventDate = (new Date()).getTime() + 1000 * 24 * 60 * 60 * (i - numberOfDays / 2);
-            day.eventName = '事件' + i;
-            day.category = '生活';
-            day.repeat = 'day';
-            days.push(day);
+        let day = this.dayForUid(this.topDayUid);
+        if (!day) {
+            if (this.days.length > 0) {
+                return this.days[0];
+            } else {
+                return undefined;
+            }
         }
-        return days;
+        return day;
+    }
+
+    nearestDay() {
+        let nearestDay = undefined;
+        var nearestDistance = 400;
+        for (let index in this.days) {
+            let day = this.days[index];
+            let distance = day.distance();
+            if (distance < nearestDistance && distance >=0) {
+                nearestDistance = distance;
+                nearestDay = day;
+            }
+        }
+        return nearestDay;
+    }
+
+    isTopDay(day: Day) {
+        return day.id == this.topDayUid;
+    }
+
+    makeTopDay(day: Day) {
+        this.topDayUid = day.id;
+        this._saveAll();
+    }
+
+    sortedDays() {
+        let sortedArr = [];
+        let topDay = undefined;
+        for (let index in this.days) {
+            if (this.days[index].id != this.topDayUid) {
+                sortedArr.push(this.days[index]);
+            } else {
+                topDay = this.days[index];
+            }
+        }
+        if (topDay) {
+            sortedArr.splice(0,0,topDay);
+        }
+        return sortedArr;
+    }
+
+    dayForUid(uid) {
+        for (var index in this.days) {
+            if (this.days[index].id == uid) {
+                return this.days[index];
+            }
+        }
+        return undefined;
+    }
+
+    _saveAll(callback) {
+        var storageData = {
+            topDayUid: this.topDayUid,
+            days: this.days
+        }
+        AsyncStorage.setItem(DaysStorageKey, JSON.stringify(storageData), callback);
+        this.updated();
+    }
+
+    _loadAll(success, failed) {
+        var _this = this;
+        AsyncStorage.getItem(DaysStorageKey, function(error, data) {
+            if (data) {
+                let obj = JSON.parse(data);
+                _this.days = [];
+                _this.topDayUid = obj.topDayUid;
+                for (var dayDicIndex in obj.days) {
+                    var dayDic = obj.days[dayDicIndex];
+                    var day: Day = new Day();
+                    day.eventDate = dayDic.eventDate;
+                    day.eventName = dayDic.eventName;
+                    day.category = dayDic.category;
+                    day.repeat = dayDic.repeat;
+                    day.id = dayDic.id;
+                    _this.days.push(day);
+                }
+                if ((!_this.topDayUid || _this.topDayUid == '') && _this.days.length > 0) {
+                    _this.topDayUid = _this.days[0].id;
+                }
+                if (success) {
+                    success(_this.days);
+                    _this.updated();
+                }
+            }
+            if (failed) {
+                failed(error);
+            }
+        });
     }
 }
 
-module.exports = DaysStore;
+var sharedStore = new DaysStore();
+module.exports = sharedStore;

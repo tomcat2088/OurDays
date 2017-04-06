@@ -22,25 +22,41 @@ import TopFixNavigationBar from "../components/ui controls/TopFixNavigationBar";
 
 const window = require('Dimensions').get('window')
 const theme = require('../components/ui controls/Theme');
-
+const DaysStore = require('../components/stores/DaysStore')
 export default class EventPreviewPage extends Component {
-    static navigationOptions = {
-        title: '详情'
+    static navigatorStyle = {
+        navBarHidden: true,
+        screenBackgroundColor: '#000'
     };
     constructor(props) {
         super(props);
+        const ds = new ViewPager.DataSource({
+            pageHasChanged: (r1, r2) => r1 !== r2
+        });
         this.state = {
-            currentDayIndex: this.props.navigation.state.params.selectedDayIndex,
-            daysCount: this.props.navigation.state.params.days.length,
-            current: 0
+            currentDayIndex: props.selectedDayIndex,
+            daysCount: DaysStore.days.length,
+            current: 0,
+            dataSource: ds.cloneWithPages(DaysStore.days)
         }
     }
-    render() {
-        let days = this.props.navigation.state.params.days;
-        let ds = new ViewPager.DataSource({
-            pageHasChanged: (p1, p2) => p1 !== p2
+
+    componentDidMount() {
+        DaysStore.listenOn(this);
+    }
+
+    componentWillUnmount() {
+        DaysStore.listenOff(this);
+    }
+
+    daysStoreUpdated() {
+        const ds = new ViewPager.DataSource({
+            pageHasChanged: (r1, r2) => r1 !== r2
         });
-        let pagerDataSource = ds.cloneWithPages(days);
+        this.setState({ dataSource: ds.cloneWithPages(DaysStore.days) });
+    }
+
+    render() {
         return (
             <View style={ styles.container }>
                 <BlurImage
@@ -49,7 +65,7 @@ export default class EventPreviewPage extends Component {
                 />
                 <ViewPager
                     style={ { flex: 1 } }
-                    dataSource={ pagerDataSource }
+                    dataSource={ this.state.dataSource }
                     renderPage={ this._renderPage.bind(this) }
                     initialPage={this.state.currentDayIndex}
                     renderPageIndicator = { this._renderIndicator.bind(this) }
@@ -100,13 +116,14 @@ export default class EventPreviewPage extends Component {
     }
 
     _goBack() {
-        const backAction = NavigationActions.back();
-        this.props.navigation.dispatch(backAction);
+        this.props.navigator.pop();
     }
 
     _edit() {
-        let { navigate } = this.props.navigation;
-        navigate( 'EventEditPage', { index: this.state.currentDayIndex } )
+        this.props.navigator.push({
+            screen: 'EventEditPage',
+            passProps: { index: this.state.currentDayIndex }
+        });
     }
 }
 
@@ -114,6 +131,7 @@ const styles = StyleSheet.create({
     container: {
         flex: 1,
         backgroundColor: '#000000',
+        overflow: 'hidden'
     },
     content: {
         flex: 1,
