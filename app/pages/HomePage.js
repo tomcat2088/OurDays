@@ -17,7 +17,7 @@ import {
 } from 'react-native'
 import TopFixNavigationBar from "../components/ui controls/TopFixNavigationBar";
 import BlurImage from "../components/ui controls/BlurImage";
-
+import Menu, { MenuContext, MenuOptions, MenuOption, MenuTrigger } from 'react-native-popup-menu';
 import DaysStore from '../components/stores/DaysStore'
 import EventList from '../components/ui controls/EventList'
 
@@ -34,8 +34,11 @@ export default class HomePage extends Component {
             eventMainAreaInitHeight: MainAreaHeight,
             eventMainAreaHeight: MainAreaHeight,
             eventMainAreaImageScale: 1,
-            topDay: this.daysStore.nearestDay()
+            topDay: this.daysStore.nearestDay(),
+            categories: [],
+            currentCategory: ''
         };
+        this.daysStore.fetchCategory();
     }
 
     componentDidMount() {
@@ -48,6 +51,11 @@ export default class HomePage extends Component {
 
     daysStoreUpdated() {
         this.setState({ topDay: this.daysStore.nearestDay() });
+        let categories = this.daysStore.categories.slice();
+        categories.splice(0,0,'全部');
+        this.setState({
+            categories: categories
+        });
     }
 
     render() {
@@ -56,7 +64,7 @@ export default class HomePage extends Component {
             outputRange: ['rgba(0, 0, 0, 0)', 'rgba(0, 0, 0, 0.7)', 'rgba(0, 0, 0, 0.7)']
         });
         return (
-            <View style={{ flex: 1, backgroundColor: 'rgba(0,0,0,1)' }}>
+            <MenuContext style={{ flex: 1, backgroundColor: 'rgba(0,0,0,1)' }} ref="MenuContext">
                 <BlurImage
                     source={ require('../resources/bg_01.jpg')}
                     style={{ position: 'absolute', width:window.width, height:window.height, backgroundColor: '#000'}}
@@ -66,15 +74,18 @@ export default class HomePage extends Component {
                     style={ styles.eventList }
                     onScroll={ listViewOnScrollAnimated }
                     daysStore={ this.daysStore }
-                    onRowSelected={ this._rowSelected.bind(this) }>
+                    onRowSelected={ this._rowSelected.bind(this) }
+                    category={ this.state.currentCategory }>
                 </EventList>
                 <TopFixNavigationBar
                     style= {{ backgroundColor: headerColor }}
-                    title= "Our Days - Life"
+                    title= { this.state.categories }
                     leftImageSource={ require('../resources/ic_menu.png') }
                     rightImageSource={ require('../resources/ic_add.png') }
-                    onRightPress={ this._add.bind(this) }/>
-            </View>
+                    onRightPress={ this._add.bind(this) }
+                    onTitleChanged={ this._onCategoryChanged.bind(this) }
+                    titlePrefix='重要日 - '/>
+            </MenuContext>
         )
     }
 
@@ -160,7 +171,14 @@ export default class HomePage extends Component {
     _add() {
         this.props.navigator.push({
             screen: 'EventEditPage',
+            passProps: {
+                category: this.state.currentCategory == '全部' ? '' : this.state.currentCategory
+            }
         });
+    }
+
+    _onCategoryChanged(category) {
+        this.setState({ currentCategory: category });
     }
 }
 
@@ -170,5 +188,19 @@ const styles = StyleSheet.create({
     },
     eventList: {
         marginTop: MainAreaHeight
+    },
+    topbar: {
+        position: 'absolute',
+        flexDirection: 'row',
+        justifyContent: 'center',
+        backgroundColor: 'black',
+        paddingHorizontal: 5,
+        paddingVertical: 10,
+        left:0,
+        right: 0,
+        backgroundColor: 'rgba(0,0,0,0)'
+    },
+    menuOptions: {
+        width: 600
     }
 })

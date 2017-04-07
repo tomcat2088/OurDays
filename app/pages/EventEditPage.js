@@ -21,11 +21,14 @@ import BlurImage from "../components/ui controls/BlurImage";
 import { NavigationActions } from 'react-navigation'
 import Picker from 'react-native-picker';
 import DatePickerDialog from "react-native-datepicker-dialog/lib/datepicker/DatePickerDialog.ios";
+var MessageBarAlert = require('react-native-message-bar').MessageBar;
+var MessageBarManager = require('react-native-message-bar').MessageBarManager;
 
 var DaysStore = require('../components/stores/DaysStore')
 const window = require('Dimensions').get('window')
 const theme = require('../components/ui controls/Theme');
 var moment = require('moment');
+
 
 export default class EventEditPage extends Component {
     static navigatorStyle = {
@@ -40,6 +43,9 @@ export default class EventEditPage extends Component {
         let editDay = this.daysStore.days[editDayIndex];
         if (!editDay) {
             editDay = this.daysStore.newDay();
+            if (props.category != '') {
+                editDay.category = props.category;
+            }
             isCreate = true;
         }
         this.state = {
@@ -52,6 +58,14 @@ export default class EventEditPage extends Component {
             repeat: editDay.repeat,
             alwaysTop: this.daysStore.isTopDay(editDay)
         }
+    }
+
+    componentDidMount() {
+        MessageBarManager.registerMessageBar(this.refs.alert);
+    }
+
+    componentWillUnmount() {
+        MessageBarManager.unregisterMessageBar();
     }
 
     render() {
@@ -110,11 +124,13 @@ export default class EventEditPage extends Component {
                     rightTitle={ this.state.isCreate ? undefined : '删除' }
                     title={ this.state.isCreate ? '新建事件' : '编辑事件' }
                 />
+                <MessageBarAlert ref="alert" />
             </View>
         )
     }
 
     _goBack() {
+        Picker.hide();
         this.props.navigator.pop();
     }
 
@@ -127,7 +143,7 @@ export default class EventEditPage extends Component {
                 {text: '删除', onPress: () => {
                     var _this = this;
                     DaysStore.deleteDay(this.state.editDay, function () {
-                        this.props.navigator.pop();
+                        _this.props.navigator.pop();
                     }, function (error) {
 
                     })
@@ -138,17 +154,28 @@ export default class EventEditPage extends Component {
     }
 
     _save() {
-        this.state.editDay.eventName = this.state.eventName;
-        this.state.editDay.category = this.state.category;
-        this.state.editDay.repeat = this.state.repeat;
-        let _this = this;
-        this.daysStore.saveDay(this.state.editDay, function() {
-            _this.props.navigator.pop();
-        },function (error) {
-            // save with error
-        });
-        if (this.state.alwaysTop) {
-            this.daysStore.makeTopDay(this.state.editDay);
+        if (this.state.eventName == '') {
+            Alert.alert(
+                '警告',
+                '事件名不能为空',
+                [
+                    {text: '确定', style: 'cancel'},
+                ],
+                { cancelable: false }
+            )
+        } else {
+            this.state.editDay.eventName = this.state.eventName;
+            this.state.editDay.category = this.state.category;
+            this.state.editDay.repeat = this.state.repeat;
+            let _this = this;
+            this.daysStore.saveDay(this.state.editDay, function () {
+                _this.props.navigator.pop();
+            }, function (error) {
+                // save with error
+            });
+            if (this.state.alwaysTop) {
+                this.daysStore.makeTopDay(this.state.editDay);
+            }
         }
     }
 
@@ -182,28 +209,17 @@ export default class EventEditPage extends Component {
     }
 
     _pickEventCategory() {
-        let categories = this.daysStore.fetchCategory();
-        Picker.init({
-            pickerConfirmBtnColor: [255, 255, 255, 1],
-            pickerCancelBtnColor: [255, 255, 255, 1],
-            pickerTitleColor: [255, 255, 255, 1],
-            pickerToolBarBg: [0, 0, 0, 0.7],
-            pickerBg: [0, 0, 0, 0.5],
-            pickerFontColor: [255, 255 ,255, 1],
-            pickerConfirmBtnText: '选择',
-            pickerCancelBtnText: '取消',
-            pickerTitleText: '选择类别',
-            pickerData: categories,
-            selectedValue: [this.state.category],
-            onPickerConfirm: data => {
-                for (var i in categories) {
-                    if (categories[i] == data) {
-                        return this.setState({category: categories[i]});
-                    }
+        var _this = this;
+        this.props.navigator.push({
+            screen: 'CategoryEditPage',
+            passProps: {
+                category: this.state.category,
+                categorySetCallback: function(data) {
+                    console.warn(data);
+                    _this.setState({ category: data });
                 }
             }
         });
-        Picker.show();
     }
 
     _pickEventRepeat() {

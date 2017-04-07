@@ -33,6 +33,15 @@ export default class EventList extends Component {
         }
     }
 
+    componentWillReceiveProps(nextProps) {
+        if (nextProps.category) {
+            const ds = new ListView.DataSource({
+                rowHasChanged: (r1, r2) => r1 !== r2
+            });
+            this.setState({ dataSource: ds.cloneWithRows(DaysStore.sortedDays(nextProps.category)) });
+        }
+    }
+
     componentDidMount() {
         DaysStore.listenOn(this);
     }
@@ -45,11 +54,10 @@ export default class EventList extends Component {
         const ds = new ListView.DataSource({
             rowHasChanged: (r1, r2) => r1 !== r2
         });
-        this.setState({ dataSource: ds.cloneWithRows(DaysStore.sortedDays()) });
+        this.setState({ dataSource: ds.cloneWithRows(DaysStore.sortedDays(this.props.category)) });
     }
     
     render() {
-
         return (
             <ListView
                 style={[styles.listView, this.props.style]}

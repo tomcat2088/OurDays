@@ -13,19 +13,38 @@ import {
     TouchableOpacity
 } from 'react-native'
 
+import Menu, { MenuContext, MenuOptions, MenuOption, MenuTrigger } from 'react-native-popup-menu';
+
 var theme = require('./Theme');
 var DaysStore = require('../../components/stores/DaysStore');
+const window = require('Dimensions').get('window')
 
 export default class TopFixNavigationBar extends Component {
     constructor(props) {
         super(props);
+        this.state = {
+            currentTitle: ''
+        }
+        this.setState({
+            currentTitle: props.title instanceof Array ? (props.title.length > 0 ? props.title[0] : '') : props.title
+        });
+    }
+
+    componentWillReceiveProps(nextProps) {
+        if (nextProps.title) {
+           if (this.state.currentTitle == '') {
+               this.setState({
+                   currentTitle: nextProps.title instanceof Array ? (nextProps.title.length > 0 ? nextProps.title[0] : '') : nextProps.title,
+               });
+           }
+        }
     }
 
     render() {
         return (
             <Animated.View style={ [styles.navigationBar, this.props.style] } >
                 { this._renderLeftItem() }
-                <Text style={ [theme.middleText, theme.lightText, styles.navTitle] }>{ this.props.title }</Text>
+                { this._renderTitle() }
                 { this._renderRightItem() }
             </Animated.View>
         )
@@ -86,6 +105,40 @@ export default class TopFixNavigationBar extends Component {
             )
         }
     }
+
+    _renderTitle() {
+        if (this.props.title instanceof Array) {
+            return this._renderMenu(this.props.title);
+        } else {
+            return (
+                <Text style={ [theme.middleText, theme.lightText, styles.navTitle] }>{ this.props.titlePrefix }{ this.props.title }</Text>
+            )
+        }
+    }
+
+    _renderMenu(options) {
+        var menuOptions = [];
+        for(let i = 0; i < options.length; i++){
+            menuOptions.push(
+                <MenuOption onSelect={() => this._menuOptionSelected(options[i])} text={ this.props.titlePrefix + options[i] } />
+            )
+        }
+        return (
+            <Menu>
+                <MenuTrigger text={ this.props.titlePrefix + this.state.currentTitle } customStyles={ triggerStyles }/>
+                <MenuOptions customStyles={optionsStyles}>
+                    { menuOptions }
+                </MenuOptions>
+            </Menu>
+        )
+    }
+
+    _menuOptionSelected(option) {
+        this.setState({ currentTitle: option });
+        if (this.props.onTitleChanged) {
+            this.props.onTitleChanged(option);
+        }
+    }
 }
 
 const styles = StyleSheet.create({
@@ -112,3 +165,43 @@ const styles = StyleSheet.create({
         textAlign: 'center'
     }
 });
+
+const triggerStyles = {
+    triggerText: {
+        color: 'white',
+        fontSize: 16
+    },
+    triggerOuterWrapper: {
+        padding: 5,
+        flex: 1,
+    },
+    triggerWrapper: {
+        alignItems: 'center',
+        justifyContent: 'center',
+        flex: 1,
+    },
+    triggerTouchable: {
+        style : {
+            flex: 1,
+        },
+    },
+};
+
+const optionsStyles = {
+    optionsContainer: {
+        backgroundColor: '#fff',
+        padding: 3,
+        width:window.width
+    },
+    optionsWrapper: {
+    },
+    optionWrapper: {
+        margin: 5,
+        justifyContent: 'center',
+        alignItems:'center'
+    },
+    optionText: {
+        color: '#000',
+        fontSize: 14
+    },
+};

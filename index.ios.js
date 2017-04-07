@@ -7,7 +7,7 @@
 import React, { Component } from 'react';
 import {
     AppRegistry,
-    StyleSheet
+    StyleSheet,
 } from 'react-native';
 
 import {
@@ -17,12 +17,15 @@ import {
 import HomePage from './app/pages/HomePage'
 import EventPreviewPage from './app/pages/EventPreviewPage'
 import EventEditPage from './app/pages/EventEditPage'
+import CategoryEditPage from './app/pages/CategoryEditPage'
+
 import { Navigation } from 'react-native-navigation';
 
 function registerScreens() {
     Navigation.registerComponent('Main', () => HomePage);
     Navigation.registerComponent('EventPreviewPage', () => EventPreviewPage);
     Navigation.registerComponent('EventEditPage', () => EventEditPage);
+    Navigation.registerComponent('CategoryEditPage', () => CategoryEditPage);
 }
 registerScreens();
 
@@ -57,6 +60,11 @@ Navigation.startSingleScreenApp({
 //             header: { visible: false }
 //         },
 //     })
+
+let notificationService = require('./app/components/service/NotificationService')
+notificationService.setup();
+let daysNotificationService = require('./app/components/service/DaysNotificationService')
+daysNotificationService.setup();
 
 const styles = StyleSheet.create({
     container: {

@@ -46,10 +46,10 @@ class Day {
     }
 
     assign(day: Day) {
-        this.eventName = day.eventName;
-        this.eventDate = day.eventDate;
-        this.category = day.category;
-        this.repeat = day.repeat;
+        day.eventName = this.eventName;
+        day.eventDate = this.eventDate;
+        day.category = this.category;
+        day.repeat = this.repeat;
     }
 }
 
@@ -61,6 +61,7 @@ class DaysStore extends Component {
         this.days = [];
         this.topDayUid = '';
         this.listeners = [];
+        this.categories = ['生活','工作','学习'];
     }
 
     listenOn(reciever) {
@@ -84,11 +85,36 @@ class DaysStore extends Component {
     }
 
     fetchDays(success, failed) {
-        this._loadAll(success, failed);
+        var _this = this;
+        this._loadAll(function () {
+            if (success != undefined) {
+                success(_this.days);
+            }
+        }, failed);
     }
 
-    fetchCategory() {
-        return ['生活','工作','学习'];
+    fetchCategory(success, failed) {
+        var _this = this;
+        this._loadAll(function () {
+            if (success != undefined) {
+                success(_this.categories);
+            }
+        }, failed);
+    }
+
+    addCategory(category) {
+        this.categories.push(category);
+        this._saveAll();
+        this.updated();
+    }
+
+    deleteCategory(category) {
+        let index = this.categories.indexOf(category);
+        if (index >= 0) {
+            this.categories.splice(index, 1);
+        }
+        this._saveAll();
+        this.updated();
     }
 
     repeatTypes() {
@@ -97,7 +123,8 @@ class DaysStore extends Component {
 
     newDay() {
         var day: Day = new Day();
-        day.category = this.fetchCategory()[0];
+        day.eventName = '';
+        day.category = this.categories[0];
         day.eventDate = (new Date()).getTime();
         day.repeat = this.repeatTypes()[0];
         return day;
@@ -181,14 +208,25 @@ class DaysStore extends Component {
         this._saveAll();
     }
 
-    sortedDays() {
+    sortedDays(category) {
+        let categoryExist = false;
+        for (let i in this.categories) {
+            if (category == this.categories[i]) {
+                categoryExist = true;
+            }
+        }
+        console.warn(categoryExist)
         let sortedArr = [];
         let topDay = undefined;
         for (let index in this.days) {
-            if (this.days[index].id != this.topDayUid) {
-                sortedArr.push(this.days[index]);
-            } else {
-                topDay = this.days[index];
+            if (!category ||
+                !categoryExist ||
+                category == this.days[index].category) {
+                if (this.days[index].id != this.topDayUid) {
+                    sortedArr.push(this.days[index]);
+                } else {
+                    topDay = this.days[index];
+                }
             }
         }
         if (topDay) {
@@ -209,7 +247,8 @@ class DaysStore extends Component {
     _saveAll(callback) {
         var storageData = {
             topDayUid: this.topDayUid,
-            days: this.days
+            days: this.days,
+            categories: this.categories
         }
         AsyncStorage.setItem(DaysStorageKey, JSON.stringify(storageData), callback);
         this.updated();
@@ -222,6 +261,9 @@ class DaysStore extends Component {
                 let obj = JSON.parse(data);
                 _this.days = [];
                 _this.topDayUid = obj.topDayUid;
+                if (obj.categories) {
+                    _this.categories = obj.categories;
+                }
                 for (var dayDicIndex in obj.days) {
                     var dayDic = obj.days[dayDicIndex];
                     var day: Day = new Day();
