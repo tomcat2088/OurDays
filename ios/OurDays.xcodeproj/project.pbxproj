@@ -39,9 +39,9 @@
 		832341BD1AAA6AB300B99B32 /* libRCTText.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 832341B51AAA6A8300B99B32 /* libRCTText.a */; };
 		8E047EF11E978A1600191DD5 /* libRCTPushNotification.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 8E047EDD1E978A0E00191DD5 /* libRCTPushNotification.a */; };
 		8E09A5D91E94FE9A008D9995 /* main.jsbundle in Resources */ = {isa = PBXBuildFile; fileRef = 8E09A5D81E94FE9A008D9995 /* main.jsbundle */; };
-		8E09A6151E96440D008D9995 /* libReactNativeNavigation.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 8E09A6131E9643FD008D9995 /* libReactNativeNavigation.a */; };
 		8E09A6181E964E2B008D9995 /* Aspects.m in Sources */ = {isa = PBXBuildFile; fileRef = 8E09A6171E964E2B008D9995 /* Aspects.m */; };
 		8E09A61E1E964E69008D9995 /* UIViewController+Interactive.m in Sources */ = {isa = PBXBuildFile; fileRef = 8E09A61D1E964E69008D9995 /* UIViewController+Interactive.m */; };
+		931C70D4A7044111A4797717 /* libReactNativeNavigation.a in Frameworks */ = {isa = PBXBuildFile; fileRef = CB78879A41784CE3B7B66884 /* libReactNativeNavigation.a */; };
 		DA882E97A3974DF58A649065 /* libRNBlur.a in Frameworks */ = {isa = PBXBuildFile; fileRef = F46991AD0A4341F491C00F60 /* libRNBlur.a */; };
 /* End PBXBuildFile section */
 
@@ -256,19 +256,19 @@
 			remoteGlobalIDString = 17D41E551D7EE0CA0031415E;
 			remoteInfo = RCTBEEPickerManager;
 		};
-		8E09A6121E9643FD008D9995 /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = 8E09A5F41E9643FC008D9995 /* ReactNativeNavigation.xcodeproj */;
-			proxyType = 2;
-			remoteGlobalIDString = D8AFADBD1BEE6F3F00A4592D;
-			remoteInfo = ReactNativeNavigation;
-		};
 		D301D8F81E8FFF1000DD060D /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = 92BBAA9ABB044118BBC943C5 /* RNBlur.xcodeproj */;
 			proxyType = 2;
 			remoteGlobalIDString = A68BD7BC1BC31318005F02DF;
 			remoteInfo = RNBlur;
+		};
+		D30C9B5B1E97C40500A4CB97 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = CF0F7D8A0E7D4334B6035DB7 /* ReactNativeNavigation.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = D8AFADBD1BEE6F3F00A4592D;
+			remoteInfo = ReactNativeNavigation;
 		};
 /* End PBXContainerItemProxy section */
 
@@ -298,7 +298,6 @@
 		832341B01AAA6A8300B99B32 /* RCTText.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = RCTText.xcodeproj; path = "../node_modules/react-native/Libraries/Text/RCTText.xcodeproj"; sourceTree = "<group>"; };
 		8E047ECC1E978A0E00191DD5 /* RCTPushNotification.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = RCTPushNotification.xcodeproj; path = "../node_modules/react-native/Libraries/PushNotificationIOS/RCTPushNotification.xcodeproj"; sourceTree = "<group>"; };
 		8E09A5D81E94FE9A008D9995 /* main.jsbundle */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; name = main.jsbundle; path = ../main.jsbundle; sourceTree = "<group>"; };
-		8E09A5F41E9643FC008D9995 /* ReactNativeNavigation.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = ReactNativeNavigation.xcodeproj; path = "../node_modules/react-native-navigation/ios/ReactNativeNavigation.xcodeproj"; sourceTree = "<group>"; };
 		8E09A6161E964E2B008D9995 /* Aspects.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = Aspects.h; path = OurDays/Aspects.h; sourceTree = "<group>"; };
 		8E09A6171E964E2B008D9995 /* Aspects.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = Aspects.m; path = OurDays/Aspects.m; sourceTree = "<group>"; };
 		8E09A61C1E964E69008D9995 /* UIViewController+Interactive.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "UIViewController+Interactive.h"; path = "OurDays/UIViewController+Interactive.h"; sourceTree = "<group>"; };
@@ -306,6 +305,8 @@
 		92BBAA9ABB044118BBC943C5 /* RNBlur.xcodeproj */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = "wrapper.pb-project"; name = RNBlur.xcodeproj; path = "../node_modules/react-native-blur/ios/RNBlur.xcodeproj"; sourceTree = "<group>"; };
 		B375A0309D78474393FF553E /* RCTBEEPickerManager.xcodeproj */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = "wrapper.pb-project"; name = RCTBEEPickerManager.xcodeproj; path = "../node_modules/react-native-picker/ios/RCTBEEPickerManager.xcodeproj"; sourceTree = "<group>"; };
 		C52CC34F6419457792DF0163 /* libRCTBEEPickerManager.a */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = archive.ar; path = libRCTBEEPickerManager.a; sourceTree = "<group>"; };
+		CB78879A41784CE3B7B66884 /* libReactNativeNavigation.a */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = archive.ar; path = libReactNativeNavigation.a; sourceTree = "<group>"; };
+		CF0F7D8A0E7D4334B6035DB7 /* ReactNativeNavigation.xcodeproj */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = "wrapper.pb-project"; name = ReactNativeNavigation.xcodeproj; path = "../node_modules/react-native-navigation/ios/ReactNativeNavigation.xcodeproj"; sourceTree = "<group>"; };
 		F46991AD0A4341F491C00F60 /* libRNBlur.a */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = archive.ar; path = libRNBlur.a; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -323,7 +324,6 @@
 			buildActionMask = 2147483647;
 			files = (
 				8E047EF11E978A1600191DD5 /* libRCTPushNotification.a in Frameworks */,
-				8E09A6151E96440D008D9995 /* libReactNativeNavigation.a in Frameworks */,
 				146834051AC3E58100842450 /* libReact.a in Frameworks */,
 				5E9157361DD0AC6A00FF2AA8 /* libRCTAnimation.a in Frameworks */,
 				00C302E51ABCBA2D00DB3ED1 /* libRCTActionSheet.a in Frameworks */,
@@ -337,6 +337,7 @@
 				139FDEF61B0652A700C62182 /* libRCTWebSocket.a in Frameworks */,
 				DA882E97A3974DF58A649065 /* libRNBlur.a in Frameworks */,
 				31FA83FDA0714754A5F8A5EF /* libRCTBEEPickerManager.a in Frameworks */,
+				931C70D4A7044111A4797717 /* libReactNativeNavigation.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -497,7 +498,6 @@
 			isa = PBXGroup;
 			children = (
 				8E047ECC1E978A0E00191DD5 /* RCTPushNotification.xcodeproj */,
-				8E09A5F41E9643FC008D9995 /* ReactNativeNavigation.xcodeproj */,
 				5E91572D1DD0AC6500FF2AA8 /* RCTAnimation.xcodeproj */,
 				146833FF1AC3E56700842450 /* React.xcodeproj */,
 				00C302A71ABCB8CE00DB3ED1 /* RCTActionSheet.xcodeproj */,
@@ -511,6 +511,7 @@
 				139FDEE61B06529A00C62182 /* RCTWebSocket.xcodeproj */,
 				92BBAA9ABB044118BBC943C5 /* RNBlur.xcodeproj */,
 				B375A0309D78474393FF553E /* RCTBEEPickerManager.xcodeproj */,
+				CF0F7D8A0E7D4334B6035DB7 /* ReactNativeNavigation.xcodeproj */,
 			);
 			name = Libraries;
 			sourceTree = "<group>";
@@ -564,18 +565,18 @@
 			name = Products;
 			sourceTree = "<group>";
 		};
-		8E09A5F51E9643FC008D9995 /* Products */ = {
-			isa = PBXGroup;
-			children = (
-				8E09A6131E9643FD008D9995 /* libReactNativeNavigation.a */,
-			);
-			name = Products;
-			sourceTree = "<group>";
-		};
 		D301D8DC1E8FFF1000DD060D /* Products */ = {
 			isa = PBXGroup;
 			children = (
 				D301D8F91E8FFF1000DD060D /* libRNBlur.a */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		D30C9B3C1E97C40500A4CB97 /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				D30C9B5C1E97C40500A4CB97 /* libReactNativeNavigation.a */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -750,8 +751,8 @@
 					ProjectRef = 146833FF1AC3E56700842450 /* React.xcodeproj */;
 				},
 				{
-					ProductGroup = 8E09A5F51E9643FC008D9995 /* Products */;
-					ProjectRef = 8E09A5F41E9643FC008D9995 /* ReactNativeNavigation.xcodeproj */;
+					ProductGroup = D30C9B3C1E97C40500A4CB97 /* Products */;
+					ProjectRef = CF0F7D8A0E7D4334B6035DB7 /* ReactNativeNavigation.xcodeproj */;
 				},
 				{
 					ProductGroup = D301D8DC1E8FFF1000DD060D /* Products */;
@@ -965,18 +966,18 @@
 			remoteRef = 8E09A5BF1E94FE63008D9995 /* PBXContainerItemProxy */;
 			sourceTree = BUILT_PRODUCTS_DIR;
 		};
-		8E09A6131E9643FD008D9995 /* libReactNativeNavigation.a */ = {
-			isa = PBXReferenceProxy;
-			fileType = archive.ar;
-			path = libReactNativeNavigation.a;
-			remoteRef = 8E09A6121E9643FD008D9995 /* PBXContainerItemProxy */;
-			sourceTree = BUILT_PRODUCTS_DIR;
-		};
 		D301D8F91E8FFF1000DD060D /* libRNBlur.a */ = {
 			isa = PBXReferenceProxy;
 			fileType = archive.ar;
 			path = libRNBlur.a;
 			remoteRef = D301D8F81E8FFF1000DD060D /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		D30C9B5C1E97C40500A4CB97 /* libReactNativeNavigation.a */ = {
+			isa = PBXReferenceProxy;
+			fileType = archive.ar;
+			path = libReactNativeNavigation.a;
+			remoteRef = D30C9B5B1E97C40500A4CB97 /* PBXContainerItemProxy */;
 			sourceTree = BUILT_PRODUCTS_DIR;
 		};
 /* End PBXReferenceProxy section */
@@ -1125,12 +1126,14 @@
 					"$(inherited)",
 					"$(SRCROOT)/../node_modules/react-native-blur/ios",
 					"$(SRCROOT)/../node_modules/react-native-picker/ios/RCTBEEPickerManager",
+					"$(SRCROOT)/../node_modules/react-native-navigation/ios/**",
 				);
 				INFOPLIST_FILE = OurDaysTests/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
+					"\"$(SRCROOT)/$(TARGET_NAME)\"",
 					"\"$(SRCROOT)/$(TARGET_NAME)\"",
 				);
 				OTHER_LDFLAGS = (
@@ -1152,12 +1155,14 @@
 					"$(inherited)",
 					"$(SRCROOT)/../node_modules/react-native-blur/ios",
 					"$(SRCROOT)/../node_modules/react-native-picker/ios/RCTBEEPickerManager",
+					"$(SRCROOT)/../node_modules/react-native-navigation/ios/**",
 				);
 				INFOPLIST_FILE = OurDaysTests/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
+					"\"$(SRCROOT)/$(TARGET_NAME)\"",
 					"\"$(SRCROOT)/$(TARGET_NAME)\"",
 				);
 				OTHER_LDFLAGS = (
@@ -1182,6 +1187,7 @@
 					"$(SRCROOT)/../node_modules/react-native-picker/ios/RCTBEEPickerManager",
 					"$(SRCROOT)/../node_modules/react-native-navigation/ios/**",
 					"$(SRCROOT)/../node_modules/react-native/Libraries/PushNotificationIOS/**",
+					"$(SRCROOT)/../node_modules/react-native-navigation/ios/**",
 				);
 				INFOPLIST_FILE = OurDays/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
@@ -1207,6 +1213,7 @@
 					"$(SRCROOT)/../node_modules/react-native-picker/ios/RCTBEEPickerManager",
 					"$(SRCROOT)/../node_modules/react-native-navigation/ios/**",
 					"$(SRCROOT)/../node_modules/react-native/Libraries/PushNotificationIOS/**",
+					"$(SRCROOT)/../node_modules/react-native-navigation/ios/**",
 				);
 				INFOPLIST_FILE = OurDays/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
@@ -1237,11 +1244,13 @@
 					"$(inherited)",
 					"$(SRCROOT)/../node_modules/react-native-blur/ios",
 					"$(SRCROOT)/../node_modules/react-native-picker/ios/RCTBEEPickerManager",
+					"$(SRCROOT)/../node_modules/react-native-navigation/ios/**",
 				);
 				INFOPLIST_FILE = "OurDays-tvOS/Info.plist";
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
+					"\"$(SRCROOT)/$(TARGET_NAME)\"",
 					"\"$(SRCROOT)/$(TARGET_NAME)\"",
 				);
 				OTHER_LDFLAGS = (
@@ -1273,11 +1282,13 @@
 					"$(inherited)",
 					"$(SRCROOT)/../node_modules/react-native-blur/ios",
 					"$(SRCROOT)/../node_modules/react-native-picker/ios/RCTBEEPickerManager",
+					"$(SRCROOT)/../node_modules/react-native-navigation/ios/**",
 				);
 				INFOPLIST_FILE = "OurDays-tvOS/Info.plist";
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
+					"\"$(SRCROOT)/$(TARGET_NAME)\"",
 					"\"$(SRCROOT)/$(TARGET_NAME)\"",
 				);
 				OTHER_LDFLAGS = (
@@ -1309,6 +1320,7 @@
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
 					"\"$(SRCROOT)/$(TARGET_NAME)\"",
+					"\"$(SRCROOT)/$(TARGET_NAME)\"",
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = "com.facebook.REACT.OurDays-tvOSTests";
 				PRODUCT_NAME = "$(TARGET_NAME)";
@@ -1334,6 +1346,7 @@
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
+					"\"$(SRCROOT)/$(TARGET_NAME)\"",
 					"\"$(SRCROOT)/$(TARGET_NAME)\"",
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = "com.facebook.REACT.OurDays-tvOSTests";

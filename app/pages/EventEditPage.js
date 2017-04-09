@@ -9,18 +9,13 @@ import {
     Text,
     TextInput,
     StyleSheet,
-    AppRegistry,
-    Button,
-    ActivityIndicator,
     Alert,
     Switch,
     TouchableOpacity,
 } from 'react-native'
 import TopFixNavigationBar from "../components/ui controls/TopFixNavigationBar";
 import BlurImage from "../components/ui controls/BlurImage";
-import { NavigationActions } from 'react-navigation'
 import Picker from 'react-native-picker';
-import DatePickerDialog from "react-native-datepicker-dialog/lib/datepicker/DatePickerDialog.ios";
 var MessageBarAlert = require('react-native-message-bar').MessageBar;
 var MessageBarManager = require('react-native-message-bar').MessageBarManager;
 
@@ -72,9 +67,9 @@ export default class EventEditPage extends Component {
         return (
             <View style={ styles.container }>
                 <BlurImage
-                    source={ require('../resources/bg_01.jpg')}
+                    source={ require('../resources/bg_02.jpg')}
                     style={{position: 'absolute', width: window.width, height: window.height}}
-                />
+                ></BlurImage>
                 <View style={ styles.inputList }>
                     <View style={ styles.editItem }>
                         <Text style={ [theme.middleText, theme.lightText] }>事件名</Text>
@@ -215,7 +210,6 @@ export default class EventEditPage extends Component {
             passProps: {
                 category: this.state.category,
                 categorySetCallback: function(data) {
-                    console.warn(data);
                     _this.setState({ category: data });
                 }
             }

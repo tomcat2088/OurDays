@@ -24,10 +24,10 @@ export default class BlurImage extends Component {
 
     render() {
         return (
-            <Image source={ this.props.source } style={ [this.props.style, {opacity: 0.4}] }>
-                {/*<BlurView blurType="dark" blurAmount={10} style={ this.props.style } >*/}
-                {/*</BlurView>*/}
-                <View style={ [this.props.style, { backgroundColor: 'rgba(0,0,0,0.5)'} ] }></View>
+            <Image source={ this.props.source } style={ [this.props.style, {opacity: 1}] }>
+                <BlurView blurType="dark" blurAmount={6} style={ this.props.style } >
+                </BlurView>
+                {/*<View style={ [this.props.style, { backgroundColor: 'rgba(0,0,0,0.6)'} ] }></View>*/}
             </Image>
         )
     }

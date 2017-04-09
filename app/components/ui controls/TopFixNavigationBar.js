@@ -23,11 +23,8 @@ export default class TopFixNavigationBar extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            currentTitle: ''
-        }
-        this.setState({
             currentTitle: props.title instanceof Array ? (props.title.length > 0 ? props.title[0] : '') : props.title
-        });
+        }
     }
 
     componentWillReceiveProps(nextProps) {
@@ -38,6 +35,9 @@ export default class TopFixNavigationBar extends Component {
                });
            }
         }
+    }
+
+    componentWillUnmount() {
     }
 
     render() {
@@ -118,9 +118,10 @@ export default class TopFixNavigationBar extends Component {
 
     _renderMenu(options) {
         var menuOptions = [];
+        console.warn(JSON.stringify(options))
         for(let i = 0; i < options.length; i++){
             menuOptions.push(
-                <MenuOption onSelect={() => this._menuOptionSelected(options[i])} text={ this.props.titlePrefix + options[i] } />
+                (<MenuOption key={options[i]} onSelect={() => this._menuOptionSelected(options[i])} text={ this.props.titlePrefix + options[i] } />)
             )
         }
         return (

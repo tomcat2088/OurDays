@@ -10,10 +10,6 @@ import {
     StyleSheet,
 } from 'react-native';
 
-import {
-    StackNavigator
-} from 'react-navigation'
-
 import HomePage from './app/pages/HomePage'
 import EventPreviewPage from './app/pages/EventPreviewPage'
 import EventEditPage from './app/pages/EventEditPage'

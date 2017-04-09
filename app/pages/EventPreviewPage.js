@@ -16,7 +16,6 @@ import {
 
 var ViewPager = require('react-native-viewpager');
 
-import { NavigationActions } from 'react-navigation'
 import BlurImage from '../components/ui controls/BlurImage'
 import TopFixNavigationBar from "../components/ui controls/TopFixNavigationBar";
 
@@ -60,9 +59,9 @@ export default class EventPreviewPage extends Component {
         return (
             <View style={ styles.container }>
                 <BlurImage
-                    source={ require('../resources/bg_01.jpg')}
+                    source={ require('../resources/bg_02.jpg')}
                     style={{ position: 'absolute', width:window.width, height:window.height}}
-                />
+                ></BlurImage>
                 <ViewPager
                     style={ { flex: 1 } }
                     dataSource={ this.state.dataSource }
@@ -97,7 +96,7 @@ export default class EventPreviewPage extends Component {
                 ]}>{ day.eventName }</Text>
                 <Text
                     style={ [theme.smallText, theme.grayText ]}>
-                    { '目标日:' + (new Date(day.eventDate)).toLocaleDateString() }
+                    { '目标日:' + day.formattedEventDate() }
                 </Text>
             </View>
         )

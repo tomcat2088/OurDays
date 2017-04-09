@@ -66,9 +66,9 @@ export default class HomePage extends Component {
         return (
             <MenuContext style={{ flex: 1, backgroundColor: 'rgba(0,0,0,1)' }} ref="MenuContext">
                 <BlurImage
-                    source={ require('../resources/bg_01.jpg')}
-                    style={{ position: 'absolute', width:window.width, height:window.height, backgroundColor: '#000'}}
-                />
+                    source={ require('../resources/bg_02.jpg')}
+                    style={{ position: 'absolute', width:window.width, height:window.height}}
+                ></BlurImage>
                 { this._topDayView() }
                 <EventList
                     style={ styles.eventList }
@@ -155,7 +155,7 @@ export default class HomePage extends Component {
                             outputRange: [12 * 1.4, 12],
                         }),
                         color: '#ccc'
-                    }}>{ '目标日:' + (new Date(this.state.topDay.eventDate)).toLocaleDateString() }</Animated.Text>
+                    }}>{ '目标日:' + this.state.topDay.formattedEventDate() }</Animated.Text>
                 </Animated.View>
             )
         }

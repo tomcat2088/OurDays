@@ -65,13 +65,14 @@ export default class EventList extends Component {
                 renderRow={ this._renderRow.bind(this) }
                 scrollEventThrottle = {16.0}
                 onScroll={ this.props.onScroll }
+                enableEmptySections={true}
                 >
             </ListView>
         )
     }
 
     _renderRow(data) {
-        let dateString = '目标日:' + (new Date(data.eventDate)).toLocaleDateString();
+        let dateString = '目标日: ' + data.formattedEventDate();
         var distance = Math.ceil(parseInt((data.eventDate - (new Date()).getTime())  / 1000 / 60 / 60) / 24);
         if (distance == 0) {
             distance = (new Date(data.eventDate)).getDay() - (new Date()).getDay();

@@ -215,7 +215,6 @@ class DaysStore extends Component {
                 categoryExist = true;
             }
         }
-        console.warn(categoryExist)
         let sortedArr = [];
         let topDay = undefined;
         for (let index in this.days) {
@@ -261,7 +260,7 @@ class DaysStore extends Component {
                 let obj = JSON.parse(data);
                 _this.days = [];
                 _this.topDayUid = obj.topDayUid;
-                if (obj.categories) {
+                if (obj.categories instanceof Array && obj.categories.length > 0) {
                     _this.categories = obj.categories;
                 }
                 for (var dayDicIndex in obj.days) {
@@ -281,9 +280,11 @@ class DaysStore extends Component {
                     success(_this.days);
                     _this.updated();
                 }
-            }
-            if (failed) {
-                failed(error);
+            } else {
+                if (success) {
+                    success(_this.days);
+                    _this.updated();
+                }
             }
         });
     }

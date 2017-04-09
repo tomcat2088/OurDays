@@ -69,9 +69,9 @@ export default class CategoryEditPage extends Component {
         return (
             <View style={ styles.container }>
                 <BlurImage
-                    source={ require('../resources/bg_01.jpg')}
+                    source={ require('../resources/bg_02.jpg')}
                     style={{position: 'absolute', width: window.width, height: window.height}}
-                />
+                ></BlurImage>
                 <ListView
                     style={[styles.listView]}
                     dataSource={ this.state.dataSource }
