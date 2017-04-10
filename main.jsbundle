@@ -48582,6 +48582,9 @@ var DaysStore = function (_Component) {
                     nearestDay = day;
                 }
             }
+            if (nearestDay == undefined) {
+                nearestDay = this.days[0];
+            }
             return nearestDay;
         }
     }, {

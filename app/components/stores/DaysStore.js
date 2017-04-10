@@ -196,6 +196,9 @@ class DaysStore extends Component {
                 nearestDay = day;
             }
         }
+        if (nearestDay == undefined) {
+            nearestDay = this.days[0];
+        }
         return nearestDay;
     }
 
