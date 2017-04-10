@@ -14,8 +14,8 @@
   [self aspect_hookSelector:@selector(viewWillAppear:) withOptions:AspectPositionAfter usingBlock:^(id<AspectInfo> info) {
     UIViewController *viewController = [info instance];
     if ([viewController.navigationController respondsToSelector:@selector(interactivePopGestureRecognizer)]) {
-      viewController.navigationController.interactivePopGestureRecognizer.enabled = YES;
-      viewController.navigationController.interactivePopGestureRecognizer.delegate = self;
+//      viewController.navigationController.interactivePopGestureRecognizer.enabled = YES;
+//      viewController.navigationController.interactivePopGestureRecognizer.delegate = self;
     }
   } error:nil];
 }

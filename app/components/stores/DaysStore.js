@@ -118,7 +118,7 @@ class DaysStore extends Component {
     }
 
     repeatTypes() {
-        return ['无重复', '每天', '每周', '每月'];
+        return ['提醒我一次', '每周提醒我', '每月提醒我', '周年纪念日'];
     }
 
     newDay() {

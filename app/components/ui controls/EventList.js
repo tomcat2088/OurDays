@@ -77,6 +77,7 @@ export default class EventList extends Component {
         if (distance == 0) {
             distance = (new Date(data.eventDate)).getDay() - (new Date()).getDay();
         }
+        let distanceDesc = distance >= 0 ? '还有' : '过去';
         return (
             <TouchableHighlight
                 onPress={ () => {
@@ -89,7 +90,11 @@ export default class EventList extends Component {
                         <Text style={{color: '#fff', marginBottom: 7, fontSize: 16 }}>{ data.eventName }</Text>
                         <Text style={{color: 'rgba(255,255,255,0.6)', fontSize: 11 }}>{ dateString }</Text>
                     </View>
-                    <Text style={{color: '#fff', fontSize: 28 }}>{ distance }</Text>
+                    <View style={ {flexDirection: 'row', alignItems:'center'} }>
+                        <Text style={{color: '#fff', fontSize: 14 }}>{ distanceDesc }</Text>
+                        <Text style={{color: '#fff', fontSize: 28 }}>{ Math.abs(distance) }</Text>
+                        <Text style={{color: '#fff', fontSize: 14 }}>{ '天' }</Text>
+                    </View>
                 </View>
             </TouchableHighlight>
 

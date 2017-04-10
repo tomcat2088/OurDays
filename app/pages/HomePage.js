@@ -83,6 +83,7 @@ export default class HomePage extends Component {
                     leftImageSource={ require('../resources/ic_menu.png') }
                     rightImageSource={ require('../resources/ic_add.png') }
                     onRightPress={ this._add.bind(this) }
+                    onLeftPress={ this._menu.bind(this) }
                     onTitleChanged={ this._onCategoryChanged.bind(this) }
                     titlePrefix='重要日 - '/>
             </MenuContext>
@@ -96,6 +97,7 @@ export default class HomePage extends Component {
             if (distance == 0) {
                 distance = (new Date(this.state.topDay.eventDate)).getDay() - (new Date()).getDay();
             }
+            let distanceDesc = distance >= 0 ? '还有' : '过去';
             return (
                 <Animated.View style={{
                     backgroundColor: 'rgba(0,0,0,0)',
@@ -124,16 +126,40 @@ export default class HomePage extends Component {
                         outputRange: [1, 0],
                     })
                 }}>
-                    <Animated.Text style={{
-                        fontSize: listViewYOffsetAnimated.interpolate({
-                            inputRange: [
-                                -100,
-                                0
-                            ],
-                            outputRange: [44 * 1.4, 44],
-                        }),
-                        color: '#fff'
-                    }}>{distance}</Animated.Text>
+
+                    <View style={ {flexDirection: 'row', alignItems:'center'} }>
+                        <Animated.Text style={{
+                            fontSize: listViewYOffsetAnimated.interpolate({
+                                inputRange: [
+                                    -100,
+                                    0
+                                ],
+                                outputRange: [18 * 1.4, 18],
+                            }),
+                            color: '#fff'
+                        }}>{distanceDesc}</Animated.Text>
+                        <Animated.Text style={{
+                            fontSize: listViewYOffsetAnimated.interpolate({
+                                inputRange: [
+                                    -100,
+                                    0
+                                ],
+                                outputRange: [44 * 1.4, 44],
+                            }),
+                            color: '#fff'
+                        }}>{Math.abs(distance)}</Animated.Text>
+                        <Animated.Text style={{
+                            fontSize: listViewYOffsetAnimated.interpolate({
+                                inputRange: [
+                                    -100,
+                                    0
+                                ],
+                                outputRange: [18 * 1.4, 18],
+                            }),
+                            color: '#fff'
+                        }}>{'天'}</Animated.Text>
+                    </View>
+
                     <Animated.Text style={{
                         fontSize: listViewYOffsetAnimated.interpolate({
                             inputRange: [
@@ -173,6 +199,15 @@ export default class HomePage extends Component {
             screen: 'EventEditPage',
             passProps: {
                 category: this.state.currentCategory == '全部' ? '' : this.state.currentCategory
+            }
+        });
+    }
+
+    _menu() {
+        this.props.navigator.push({
+            screen: 'SettingPage',
+            passProps: {
+
             }
         });
     }

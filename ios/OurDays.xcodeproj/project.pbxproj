@@ -1196,6 +1196,7 @@
 					"-ObjC",
 					"-lc++",
 				);
+				PRODUCT_BUNDLE_IDENTIFIER = me.ocean.OurDays;
 				PRODUCT_NAME = OurDays;
 				VERSIONING_SYSTEM = "apple-generic";
 			};
@@ -1222,6 +1223,7 @@
 					"-ObjC",
 					"-lc++",
 				);
+				PRODUCT_BUNDLE_IDENTIFIER = me.ocean.OurDays;
 				PRODUCT_NAME = OurDays;
 				VERSIONING_SYSTEM = "apple-generic";
 			};

@@ -82,12 +82,15 @@ export default class EventPreviewPage extends Component {
     }
 
     _renderPage(day) {
+        let distance = day.distance();
+        let distanceDesc = distance >= 0 ? '还有' : '过去';
         return (
             <View style={ styles.content }>
-                <Text
-                    style={ [theme.exLargeText, theme.lightText ]}>
-                    { day.distance() }
-                </Text>
+                <View style={ {flexDirection: 'row', alignItems:'center'} }>
+                    <Text style={[theme.middleText, theme.lightText]}>{ distanceDesc }</Text>
+                    <Text style={[theme.exLargeText, theme.lightText]}>{ Math.abs(distance) }</Text>
+                    <Text style={[theme.middleText, theme.lightText]}>{ '天' }</Text>
+                </View>
                 <Text style={ [
                     {
                         marginTop: 30,

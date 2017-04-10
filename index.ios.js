@@ -8,12 +8,14 @@ import React, { Component } from 'react';
 import {
     AppRegistry,
     StyleSheet,
+    Platform
 } from 'react-native';
 
 import HomePage from './app/pages/HomePage'
 import EventPreviewPage from './app/pages/EventPreviewPage'
 import EventEditPage from './app/pages/EventEditPage'
 import CategoryEditPage from './app/pages/CategoryEditPage'
+import SettingPage from './app/pages/SettingPage'
 
 import { Navigation } from 'react-native-navigation';
 
@@ -22,45 +24,31 @@ function registerScreens() {
     Navigation.registerComponent('EventPreviewPage', () => EventPreviewPage);
     Navigation.registerComponent('EventEditPage', () => EventEditPage);
     Navigation.registerComponent('CategoryEditPage', () => CategoryEditPage);
+    Navigation.registerComponent('SettingPage', () => SettingPage);
 }
 registerScreens();
 
 Navigation.startSingleScreenApp({
     screen: {
-        screen: 'Main', // unique ID registered with Navigation.registerScreen
-        title: 'Main', // title of the screen as appears in the nav bar (optional)
+        screen: 'Main',
+        title: 'Main',
         navigatorStyle: {
             navBarHidden: true,
             screenBackgroundColor: '#000'
-        }, // override the navigator style for the screen, see "Styling the navigator" below (optional)
-        navigatorButtons: {} // override the nav buttons for the screen, see "Adding buttons to the navigator" below (optional)
+        },
+        navigatorButtons: {}
     },
     passProps: {},
     animationType: 'slide-down'
 });
 
-// const App = StackNavigator({
-//         Main: {
-//             screen: HomePage
-//         },
-//         EventPreviewPage: {
-//             screen: EventPreviewPage
-//         },
-//         EventEditPage: {
-//             screen: EventEditPage
-//         }
-//     },
-//     {
-//         headerMode: 'screen',
-//         navigationOptions: {
-//             header: { visible: false }
-//         },
-//     })
-
-let notificationService = require('./app/components/service/NotificationService')
-notificationService.setup();
-let daysNotificationService = require('./app/components/service/DaysNotificationService')
-daysNotificationService.setup();
+if (Platform.OS === 'ios') {
+    let notificationService = require('./app/components/service/NotificationService')
+    notificationService.setup();
+    let daysNotificationService = require('./app/components/service/DaysNotificationService')
+    daysNotificationService.setup();
+} else if(Platform.OS === 'android') {
+}
 
 const styles = StyleSheet.create({
     container: {
